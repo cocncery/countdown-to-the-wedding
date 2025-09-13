@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>До нашей свадьбы — отсчёт</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent: #d4a373;
+      --card: rgba(255,255,255,0.85);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:"Roboto",sans-serif;
+      background:url('A0993A83-3D9C-40DC-BE2E-55C3ADB62179.jpeg') center/cover no-repeat fixed;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;       /* таймер сверху */
+      padding-top:60px;             /* отступ сверху */
+    }
+
+    .card{
+      width:100%;
+      max-width:640px;
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:40px;
+      box-shadow:0 10px 30px rgba(16,24,40,0.15);
+      text-align:center;
+      backdrop-filter: blur(6px);
+    }
+
+    h1{
+      margin:0 0 18px;
+      font-family:"Playfair Display",serif;
+      font-size:28px;
+      color:#2d2d2d;
+    }
+
+    p.lead{
+      margin:0 0 28px;
+      color:#555;
+      font-size:14px;
+    }
+
+    .countdown{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .unit{
+      min-width:110px;
+      padding:18px 14px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.6);
+    }
+    .value{
+      display:block;
+      font-size:28px;
+      font-weight:400;
+      color:#222;
+      font-variant-numeric: tabular-nums;
+      margin-bottom:6px;
+    }
+    .label{
+      font-size:12px;
+      color:#555;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+    .invite{
+      display:inline-block;
+      margin-top:30px;
+      padding:12px 28px;
+      background:var(--accent);
+      color:white;
+      text-decoration:none;
+      font-weight:500;
+      border-radius:50px;
+      transition:background .25s;
+    }
+    .invite:hover{background:#b5895d}
+
+    @media (max-width:420px){
+      .unit{min-width:80px;padding:12px}
+      .value{font-size:20px}
+      h1{font-size:20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>До нашей свадьбы осталось</h1>
+    <p class="lead">12 августа 2026 — отмечаем вместе 🤍</p>
+
+    <div class="countdown" id="countdown">
+      <div class="unit"><span class="value" id="days">—</span><span class="label">Дней</span></div>
+      <div class="unit"><span class="value" id="hours">—</span><span class="label">Часов</span></div>
+      <div class="unit"><span class="value" id="minutes">—</span><span class="label">Минут</span></div>
+      <div class="unit"><span class="value" id="seconds">—</span><span class="label">Секунд</span></div>
+    </div>
+
+    <a href="https://example.com/your-invite" target="_blank" class="invite">Посмотреть приглашение</a>
+  </div>
+
+  <script>
+    // 12 августа 2026, 00:00:00
+    const target = new Date(2026,7,12,0,0,0);
+    const elDays=document.getElementById('days');
+    const elHours=document.getElementById('hours');
+    const elMinutes=document.getElementById('minutes');
+    const elSeconds=document.getElementById('seconds');
+
+    function pad(n){return String(n).padStart(2,'0');}
+    function update(){
+      const now=new Date();
+      let diff=target-now;
+      if(diff<=0){
+        elDays.textContent='00';
+        elHours.textContent='00';
+        elMinutes.textContent='00';
+        elSeconds.textContent='00';
+        clearInterval(tick);
+        return;
+      }
+      const days=Math.floor(diff/(1000*60*60*24));
+      diff-=days*1000*60*60*24;
+      const hours=Math.floor(diff/(1000*60*60));
+      diff-=hours*1000*60*60;
+      const mins=Math.floor(diff/(1000*60));
+      diff-=mins*1000*60;
+      const secs=Math.floor(diff/1000);
+
+      elDays.textContent=days;
+      elHours.textContent=pad(hours);
+      elMinutes.textContent=pad(mins);
+      elSeconds.textContent=pad(secs);
+    }
+    update();
+    const tick=setInterval(update,1000);
+  </script>
+</body>
+</html>
